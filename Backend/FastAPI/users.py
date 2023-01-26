@@ -44,7 +44,7 @@ async def user(user: User):
     return user
 
 
-@app.put("/user")
+@app.put("/user", status_code=202)
 async def user(user: User):
     found = False
     for index, saved_user in enumerate(users_list):
@@ -53,10 +53,10 @@ async def user(user: User):
             found = True
 
     if not found:
-        return {"error": "user not updated"}
+        raise HTTPException(status_code=400, detail="client error updating user")
 
 
-@app.delete("/user/{id}")
+@app.delete("/user/{id}", status_code=202)
 async def user(id: int):
     found = False
     for index, saved_user in enumerate(users_list):
@@ -65,7 +65,7 @@ async def user(id: int):
             found = True
 
     if not found:
-        return {"error": "user not found"}
+        raise HTTPException(status_code=404, detail="user not found")
 
 
 def search_user(id: int):
