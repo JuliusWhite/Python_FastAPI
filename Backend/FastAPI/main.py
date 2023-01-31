@@ -10,16 +10,19 @@
 
 from fastapi import FastAPI
 from routers import products, users
+from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
 
 app = FastAPI()
 
 # routers
 app.include_router(products.router)
 app.include_router(users.router)
+app.mount("/static", StaticFiles(directory="static"), name="static" )
 
 @app.get("/")
-async def root():
-    return "Hello World"
+async def index():
+    return FileResponse('index.html')
 
 @app.get("/url")
 async def url():
