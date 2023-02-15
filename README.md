@@ -1,2 +1,2 @@
 # Python FastAPI
-This is a student server with coded with Python and based in FastAPI
+This is a server coded with Python and based in FastAPI.
