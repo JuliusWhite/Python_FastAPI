@@ -1,8 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
+# instantiation of router
 router = APIRouter()
 
+
+# model of user
 class User(BaseModel):
     id: int
     name: str
@@ -11,24 +14,21 @@ class User(BaseModel):
     age: int
 
 
+# fake db users
 users_list = [User(id=1, name="Julian", surname="Lago", url="https://github.com/JuliusWhite", age=24),
               User(id=2, name="Brais", surname="Moure", url="https://mouredev.com", age=35)]
 
-
+# petitions
 @router.get("/users")
 async def users():
     return users_list
 
 # Path
-
-
 @router.get("/user/{id}")
 async def user(id: int):
     return search_user(id)
 
 # Query
-
-
 @router.get("/userquery/")
 async def user(id: int):
     return search_user(id)
@@ -52,7 +52,8 @@ async def user(user: User):
             found = True
 
     if not found:
-        raise HTTPException(status_code=400, detail="client error updating user")
+        raise HTTPException(
+            status_code=400, detail="client error updating user")
 
 
 @router.delete("/user/{id}", status_code=202)
@@ -67,6 +68,7 @@ async def user(id: int):
         raise HTTPException(status_code=404, detail="user not found")
 
 
+# method to search for a spcific user
 def search_user(id: int):
     users = filter(lambda user: user.id == id, users_list)
     try:
